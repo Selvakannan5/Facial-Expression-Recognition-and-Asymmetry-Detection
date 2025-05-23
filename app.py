@@ -93,7 +93,7 @@ if uploaded_video:
             log_alert(expression, asymmetry)
 
         cv2.putText(frame, label, (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 200, 0), 2)
-        stframe.image(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB), channels="RGB", use_container_width=True)
+        stframe.image(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB), channels="RGB")
 
     cap.release()
     st.success("Video processing complete.")
@@ -105,7 +105,7 @@ if uploaded_video:
 elif uploaded_image:
     file_bytes = np.asarray(bytearray(uploaded_image.read()), dtype=np.uint8)
     image = cv2.imdecode(file_bytes, 1)
-    st.image(image, caption="Uploaded Image", use_container_width=True)
+    st.image(image, caption="Uploaded Image")
 
     frame_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     landmarks = get_face_landmarks(frame_rgb)
@@ -119,7 +119,7 @@ elif uploaded_image:
         log_alert(expression, asymmetry)
 
     cv2.putText(image, label, (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 200, 0), 2)
-    st.image(cv2.cvtColor(image, cv2.COLOR_BGR2RGB), caption=label, use_container_width=True)
+    st.image(cv2.cvtColor(image, cv2.COLOR_BGR2RGB), caption=label)
 
     show_suggestions(expression, asymmetry)
     show_final_expression(expression)
