@@ -2,7 +2,6 @@ import streamlit as st
 import cv2
 import tempfile
 import numpy as np
-import random
 from modules.face_detector import get_face_landmarks
 from modules.asymmetry_detector import check_asymmetry
 from modules.alerts_logger import log_alert
@@ -19,8 +18,19 @@ if not uploaded_video and not uploaded_image:
     st.warning("Please upload at least a video or an image file to proceed.")
 
 def get_expression_from_frame(frame):
-    expressions = ["happy", "neutral", "sad", "angry", "fear"]
-    return random.choice(expressions)
+    gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
+    mean_intensity = np.mean(gray)
+
+    if mean_intensity > 180:
+        return "happy"
+    elif mean_intensity > 130:
+        return "neutral"
+    elif mean_intensity > 90:
+        return "sad"
+    elif mean_intensity > 50:
+        return "angry"
+    else:
+        return "fear"
 
 def show_suggestions(expression, asymmetry):
     if asymmetry:
